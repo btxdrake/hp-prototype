@@ -12,17 +12,17 @@ func _physics_process(delta: float) -> void:
 func handle_visual(delta):
 	var original_scale = scale
 	var target_transform = target.global_transform
-	# Extract just the yaw (Y-axis rotation) from the target
+
 	var forward = -target_transform.basis.z
-	forward.y = 0  # Flatten to XZ plane
+	forward.y = 0  
 	forward = forward.normalized()
-	# Build an upright basis with only yaw rotation
+
 	var upright_basis = Basis()
 	upright_basis.z = -forward
 	upright_basis.x = forward.cross(Vector3.UP).normalized()
 	upright_basis.y = Vector3.UP
-	# Blend between tilted and upright
-	var uprightness = 0.8  # 0.0 = full tilt with board, 1.0 = completely upright
+
+	var uprightness = 0.8 
 	var blended_basis = target_transform.basis.slerp(upright_basis, uprightness)
 	global_transform.basis = global_transform.basis.slerp(blended_basis, 0.15)
 	
@@ -37,7 +37,7 @@ func handle_visual(delta):
 	
 	var local_y_offset = current_pos.y - target_pos.y
 	
-	# Soft boundary for FLOOR
+
 	var min_boundary_threshold = -min_hover_height
 	
 	if local_y_offset < min_boundary_threshold:
@@ -48,7 +48,7 @@ func handle_visual(delta):
 		
 		damping = lerp(damping, 0.95, clamp(penetration * 2, 0, 1))
 	
-	# Soft boundary for CEILING
+
 	var max_boundary_threshold = max_hover_height 
 	
 	if local_y_offset > max_boundary_threshold:

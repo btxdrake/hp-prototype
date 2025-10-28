@@ -83,8 +83,7 @@ func _handle_board_visual(delta):
 	var y_difference = target_pos.y - current_pos.y
 	var spring_force = y_difference * spring_strength
 	
-	# Soft boundary
-	var local_y_offset = current_pos.y - target_pos.y  # Negative when below target
+	var local_y_offset = current_pos.y - target_pos.y 
 	var boundary_threshold = -min_hover_height
 	
 	if local_y_offset < boundary_threshold:
