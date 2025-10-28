@@ -1,0 +1,172 @@
+[gd_scene load_steps=12 format=3 uid="uid://bt74p0pm4ea0b"]
+
+[ext_resource type="Script" uid="uid://bc223at72mrm5" path="res://board_controller.gd" id="1_mkhe7"]
+[ext_resource type="PackedScene" uid="uid://cvtc0mruf85u5" path="res://RYDER/RyderGear.fbx" id="2_5q8gg"]
+[ext_resource type="PackedScene" uid="uid://ccgeobpyr3ptc" path="res://SpriteSparks_Packed.tscn" id="3_g3562"]
+[ext_resource type="PackedScene" uid="uid://fsffcw4ytxtl" path="res://RYDER/RyderModel.fbx" id="3_nl2x1"]
+[ext_resource type="Script" uid="uid://cksoxjg2r74e0" path="res://RYDER/model_lerp.gd" id="4_bpovt"]
+[ext_resource type="Texture2D" uid="uid://dgyd8uepklb3g" path="res://RYDER/Outline.png" id="4_wmvvi"]
+[ext_resource type="Script" uid="uid://bo840wx8beqi3" path="res://start_ik.gd" id="5_34dk1"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ivycn"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_34dk1"]
+resource_name = "Material.003"
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("4_wmvvi")
+emission_enabled = true
+stencil_flags = 2
+stencil_outline_thickness = 0.008
+
+[sub_resource type="BoxMesh" id="BoxMesh_qs82m"]
+size = Vector3(1.21, 0.185, 3.635)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_q1uvj"]
+transparency = 1
+albedo_color = Color(0.3019608, 0.5411765, 0.9254902, 0.25882354)
+
+[node name="BoardController" type="CharacterBody3D" node_paths=PackedStringArray("board_mesh", "board_target")]
+floor_max_angle = 1.5707964
+script = ExtResource("1_mkhe7")
+board_mesh = NodePath("RyderGear")
+board_target = NodePath("BoardTarget")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_ivycn")
+
+[node name="RyderGear" parent="." instance=ExtResource("2_5q8gg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.69393253, 0)
+top_level = true
+
+[node name="SpriteSparks" parent="RyderGear" instance=ExtResource("3_g3562")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.18640888, -0.25076383, 2.8995025)
+
+[node name="SpriteSparks2" parent="RyderGear" instance=ExtResource("3_g3562")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.066161096, -0.25076383, 2.8995025)
+
+[node name="Cube" parent="RyderGear" index="2"]
+transform = Transform3D(100, 1.5124469e-05, -1.5099559e-05, 1.5099559e-05, -99.99986, -0.16483377, -1.5124469e-05, 0.16483377, -99.99986, 0, -0.23746741, 0)
+
+[node name="Cylinder_002" parent="RyderGear" index="3"]
+transform = Transform3D(41.10912, 0, 0, 0, -1.7969365e-06, 41.109116, 0, -41.109116, -1.7969365e-06, 0, -0.24596271, -0.8357613)
+visible = false
+
+[node name="FOOT_IK_L" type="Marker3D" parent="RyderGear"]
+transform = Transform3D(-0.36916533, 0.41277498, -0.12632394, -0.016367747, -0.17948408, -0.53864783, -0.43136176, -0.346448, 0.1285484, -0.02129732, 0.27198005, 0.1101127)
+
+[node name="FOOT_IK_R" type="Marker3D" parent="RyderGear"]
+transform = Transform3D(0.037723187, 0.5373371, -0.1801936, -0.0044110687, -0.18030854, -0.53860325, -0.5667287, 0.03717028, -0.0078021092, -0.02129732, 0.36259556, 0.8997036)
+
+[node name="RYDER_TARGET" type="Node3D" parent="RyderGear"]
+transform = Transform3D(-0.99999994, 0, -1.5099579e-07, 0, 0.99999994, 0, 1.5099579e-07, 0, -0.99999994, -0.15770885, -0.23675048, 0.43500087)
+
+[node name="RyderModel" parent="RyderGear" node_paths=PackedStringArray("target") instance=ExtResource("3_nl2x1")]
+transform = Transform3D(-0.568, 0, 8.576562e-08, 0, 0.568, 0, -8.576562e-08, 0, -0.568, -0.15770885, 0.5008868, 0.43500087)
+top_level = true
+script = ExtResource("4_bpovt")
+target = NodePath("../RYDER_TARGET")
+
+[node name="Skeleton3D" parent="RyderGear/RyderModel/metarig_001" index="0"]
+bones/0/rotation = Quaternion(0.6716188, -0.4322899, -0.36234245, 0.48037648)
+bones/1/rotation = Quaternion(-0.08864927, 0.15527353, -0.050035164, 0.9826129)
+bones/2/rotation = Quaternion(-0.05702535, 0.091862455, 0.04194071, 0.99325246)
+bones/3/rotation = Quaternion(0.016866881, -0.29257315, -0.04050491, 0.9552361)
+bones/4/rotation = Quaternion(-0.037222642, -3.6696262e-09, -2.1843012e-09, 0.99930704)
+bones/5/rotation = Quaternion(0.17514713, 0.10498504, -0.015269269, 0.9788097)
+bones/6/rotation = Quaternion(-0.027211785, 0.43277428, -0.09472707, 0.89609873)
+bones/22/rotation = Quaternion(-0.10214837, -0.16884957, 0.9575779, -0.21000037)
+bones/32/rotation = Quaternion(-0.48454767, -0.3609661, -0.5676057, 0.5592324)
+bones/33/rotation = Quaternion(-0.36749408, 0.63097984, -0.3387382, 0.5933541)
+bones/34/rotation = Quaternion(0.39545825, 0.06850651, 0.044183653, 0.91485924)
+bones/35/rotation = Quaternion(0.07547506, -0.16297108, 0.09713388, 0.9789326)
+bones/36/rotation = Quaternion(0.021935774, 0.6760056, 0.035446882, 0.7357165)
+bones/37/rotation = Quaternion(0.1753237, 0.05908121, -0.06197302, 0.9807805)
+bones/38/rotation = Quaternion(0.22145626, -0.078312606, -0.035433277, 0.97137475)
+bones/41/rotation = Quaternion(0.039937608, 0.62671846, 0.3733817, 0.68279946)
+bones/42/rotation = Quaternion(0.07642487, 0.116505526, -0.0839686, 0.9866788)
+bones/43/rotation = Quaternion(0.07376741, 0.0055656014, -0.07521309, 0.99441963)
+bones/45/rotation = Quaternion(-0.010452758, 0.6907876, 0.01982144, 0.72271043)
+bones/46/rotation = Quaternion(0.20045865, 0.019792138, -0.053775195, 0.97802496)
+bones/47/rotation = Quaternion(0.2164995, -0.07032887, -0.050851002, 0.9724176)
+bones/48/rotation = Quaternion(0.20990402, -0.050705492, -0.039171383, 0.97562027)
+bones/51/rotation = Quaternion(0.18492937, -0.045123108, -0.08801849, 0.9777616)
+bones/52/rotation = Quaternion(0.24024062, -0.06255542, -0.05288065, 0.96725124)
+bones/53/rotation = Quaternion(0.21127528, -0.054320198, -0.088022694, 0.97193843)
+bones/55/rotation = Quaternion(-0.04654189, 0.74690485, -0.023010517, 0.66290087)
+bones/56/rotation = Quaternion(0.16070288, -0.08435844, -0.08023679, 0.9801124)
+bones/57/rotation = Quaternion(0.1733372, -0.016675651, -0.07490862, 0.981868)
+bones/58/rotation = Quaternion(0.19748509, -0.019667158, -0.071312584, 0.97751087)
+bones/60/rotation = Quaternion(-0.4442736, 0.42136952, 0.3979793, 0.6831407)
+bones/61/rotation = Quaternion(-0.55224127, -0.5179654, 0.37058955, 0.5379636)
+bones/62/rotation = Quaternion(0.3413397, 0.035416055, 0.16989042, 0.9237803)
+bones/63/rotation = Quaternion(-0.06298567, -0.38988477, 0.041560143, 0.9177666)
+bones/64/rotation = Quaternion(0.049895022, -0.6737338, -0.05699288, 0.73508173)
+bones/65/rotation = Quaternion(0.17609544, -0.09713935, 0.028308807, 0.97915936)
+bones/66/rotation = Quaternion(-0.013151024, -0.0038013484, 0.014687118, 0.9997984)
+bones/67/rotation = Quaternion(-0.03052157, -0.029738074, 0.007138346, 0.9990661)
+bones/70/rotation = Quaternion(0.07642491, -0.1165056, 0.08396861, 0.9866788)
+bones/71/rotation = Quaternion(0.073767394, -0.005565621, 0.0752131, 0.99441963)
+bones/73/rotation = Quaternion(0.017125355, -0.68916607, -0.04191461, 0.7231874)
+bones/74/rotation = Quaternion(0.200084, -0.052064426, 0.013428882, 0.9783023)
+bones/75/rotation = Quaternion(-0.020398883, -0.0007314307, 0.017531263, 0.99963796)
+bones/76/rotation = Quaternion(-0.031573843, -0.0034252324, 0.0043815733, 0.99948597)
+bones/78/rotation = Quaternion(0.008218905, -0.7083478, -0.04999803, 0.70404273)
+bones/79/rotation = Quaternion(0.18464248, 0.022828294, 0.035951227, 0.98188275)
+bones/80/rotation = Quaternion(0.006076524, 0.0017521271, -0.0056134327, 0.99996424)
+bones/81/rotation = Quaternion(-0.02679389, 0.010260525, 0.027526908, 0.99920934)
+bones/83/rotation = Quaternion(-0.020844733, -0.7469114, -0.0012442867, 0.6645956)
+bones/84/rotation = Quaternion(0.15530682, 0.07589424, 0.028175125, 0.9845436)
+bones/85/rotation = Quaternion(0.052109446, 0.006390811, 0.02285819, 0.9983593)
+bones/86/rotation = Quaternion(-0.044079907, 0.0084285885, 0.007426865, 0.99896485)
+bones/94/rotation = Quaternion(-0.24402687, 0.8222801, 0.16710953, 0.48619002)
+bones/96/rotation = Quaternion(0.9381428, 0.118271746, -0.036748398, 0.3233411)
+bones/97/rotation = Quaternion(0.2704548, -0.17193069, -0.04906763, 0.9459844)
+bones/98/rotation = Quaternion(-0.6645133, -0.09309269, 0.09034191, 0.7359309)
+bones/103/rotation = Quaternion(0.78800374, 0.024269857, 0.59136105, 0.16956781)
+bones/104/rotation = Quaternion(0.10758274, -0.15362486, 0.052879114, 0.98083085)
+bones/105/rotation = Quaternion(-0.6586424, -0.1211326, -0.13918622, 0.7294823)
+bones/106/rotation = Quaternion(0.0035150805, 0.9925024, -0.12215241, -0.002348476)
+bones/108/rotation = Quaternion(-0.7002212, 0.70334435, -0.09224299, -0.08055005)
+bones/113/rotation = Quaternion(-0.025335275, -0.0062907846, 0.87684715, -0.4800601)
+bones/119/rotation = Quaternion(0.9998606, 0, 0, -0.016700307)
+bones/121/rotation = Quaternion(0.9998606, 0, 0, -0.016699508)
+
+[node name="Cube" parent="RyderGear/RyderModel/metarig_001/Skeleton3D" index="0"]
+surface_material_override/1 = SubResource("StandardMaterial3D_34dk1")
+
+[node name="SkeletonIK3D" type="SkeletonIK3D" parent="RyderGear/RyderModel/metarig_001/Skeleton3D" index="14"]
+root_bone = &"thigh.L"
+tip_bone = &"foot.L"
+use_magnet = true
+magnet = Vector3(-0.28, -0.01, 0)
+target_node = NodePath("../../../../FOOT_IK_L")
+min_distance = 0.001
+script = ExtResource("5_34dk1")
+
+[node name="SkeletonIK3D2" type="SkeletonIK3D" parent="RyderGear/RyderModel/metarig_001/Skeleton3D" index="15"]
+root_bone = &"thigh.R"
+tip_bone = &"foot.R"
+use_magnet = true
+magnet = Vector3(-0.28, -0.01, 0)
+target_node = NodePath("../../../../FOOT_IK_R")
+min_distance = 0.001
+script = ExtResource("5_34dk1")
+
+[node name="BoardTarget" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.6796093, 0)
+
+[node name="BoardMesh2" type="MeshInstance3D" parent="BoardTarget"]
+transform = Transform3D(1.0760221, 0, 0, 0, 1.0760221, 0, 0, 0, 1.0760221, 0, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_qs82m")
+skeleton = NodePath("../..")
+surface_material_override/0 = SubResource("StandardMaterial3D_q1uvj")
+
+[node name="CAM_FOLLOW" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.2901897, 4.264018)
+
+[node name="CAM_LOOK" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.5107327, -4.9239645)
+
+[editable path="RyderGear"]
+[editable path="RyderGear/RyderModel"]
