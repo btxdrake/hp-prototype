@@ -1,0 +1,9 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://4jwfr4fkqjrp"]
+
+[ext_resource type="Texture2D" uid="uid://buvdn4f11ro2e" path="res://TEX/DesertTrack_GreenGoopTex_A_PX.png" id="1_ksie1"]
+
+[resource]
+albedo_texture = ExtResource("1_ksie1")
+emission_enabled = true
+emission_texture = ExtResource("1_ksie1")
+uv1_scale = Vector3(2.36, 2.36, 2.36)

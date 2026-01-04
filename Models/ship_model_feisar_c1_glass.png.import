@@ -2,20 +2,24 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://irbkws40u41u"
-path="res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
+uid="uid://di4mn3pap73y8"
+path.s3tc="res://.godot/imported/ship_model_feisar_c1_glass.png-beab957a991e8602bb67d1cde521a6bc.s3tc.ctex"
 metadata={
-"vram_texture": false
+"imported_formats": ["s3tc_bptc"],
+"vram_texture": true
+}
+generator_parameters={
+"md5": "7a8926dc90c1ba2aad783b91ae37e7e9"
 }
 
 [deps]
 
-source_file="res://icon.svg"
-dest_files=["res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"]
+source_file="res://Models/ship_model_feisar_c1_glass.png"
+dest_files=["res://.godot/imported/ship_model_feisar_c1_glass.png-beab957a991e8602bb67d1cde521a6bc.s3tc.ctex"]
 
 [params]
 
-compress/mode=0
+compress/mode=2
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/uastc_level=0
@@ -23,7 +27,7 @@ compress/rdo_quality_loss=0.0
 compress/hdr_compression=1
 compress/normal_map=0
 compress/channel_pack=0
-mipmaps/generate=false
+mipmaps/generate=true
 mipmaps/limit=-1
 roughness/mode=0
 roughness/src_normal=""
@@ -37,7 +41,4 @@ process/normal_map_invert_y=false
 process/hdr_as_srgb=false
 process/hdr_clamp_exposure=false
 process/size_limit=0
-detect_3d/compress_to=1
-svg/scale=1.0
-editor/scale_with_editor_scale=false
-editor/convert_colors_with_editor_theme=false
+detect_3d/compress_to=0

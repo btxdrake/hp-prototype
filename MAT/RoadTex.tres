@@ -1,0 +1,7 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cr8k2tjm1377u"]
+
+[ext_resource type="Texture2D" uid="uid://io3oliimenx6" path="res://TEX/Sept_Test_Track_ScifiRoadPX1.png" id="1_b81po"]
+
+[resource]
+albedo_texture = ExtResource("1_b81po")
+texture_filter = 0

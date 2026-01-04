@@ -1,0 +1,171 @@
+[gd_scene load_steps=19 format=3 uid="uid://ctygbuprocqoj"]
+
+[ext_resource type="Script" uid="uid://cmw8qsh3kajt3" path="res://broom_visual_sync_new.gd" id="1_mx30o"]
+[ext_resource type="Script" uid="uid://bmro0vl20rq0k" path="res://neo_broom_controller.gd" id="1_slqqx"]
+[ext_resource type="Script" uid="uid://3dvdfswg7oti" path="res://visual_motion_reaction.gd" id="2_5nc24"]
+[ext_resource type="Script" uid="uid://4rn1x14mc8xc" path="res://PID_Unit.gd" id="2_8csbj"]
+[ext_resource type="Script" uid="uid://bd046eokvcnu2" path="res://addons/phantom_camera/scripts/phantom_camera_host/phantom_camera_host.gd" id="3_qey41"]
+[ext_resource type="Script" uid="uid://csjccrhj5wnx7" path="res://addons/phantom_camera/scripts/phantom_camera/phantom_camera_3d.gd" id="4_mx30o"]
+[ext_resource type="Script" uid="uid://8umksf8e80fw" path="res://addons/phantom_camera/scripts/resources/tween_resource.gd" id="5_51dph"]
+[ext_resource type="Script" uid="uid://c31eihw51eleq" path="res://camera_orientation_target.gd" id="7_51dph"]
+[ext_resource type="PackedScene" uid="uid://iwa3tmyfgtcw" path="res://Models/ship_model.glb" id="7_e0bir"]
+[ext_resource type="Script" uid="uid://b8hhnqsugykly" path="res://addons/phantom_camera/scripts/resources/camera_3d_resource.gd" id="7_tyf7f"]
+
+[sub_resource type="Curve" id="Curve_5nc24"]
+_data = [Vector2(0, 0.9287522), 0.0, 1.2838918, 0, 0, Vector2(1, 0), 0.028464822, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="SphereMesh" id="SphereMesh_slqqx"]
+radius = 0.1
+height = 0.2
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_mx30o"]
+radius = 0.3
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_e0bir"]
+radius = 2.115
+
+[sub_resource type="Resource" id="Resource_e0bir"]
+script = ExtResource("5_51dph")
+
+[sub_resource type="Resource" id="Resource_622dw"]
+script = ExtResource("7_tyf7f")
+fov = 105.0
+metadata/_custom_type_script = "uid://b8hhnqsugykly"
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_fy5hh"]
+radius = 0.12
+
+[sub_resource type="BoxMesh" id="BoxMesh_mx30o"]
+size = Vector3(1, 0.25, 0.025)
+
+[node name="NeoBroomController" type="Node3D"]
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="." node_paths=PackedStringArray("ground_ray", "pid_units", "recovery_shapecast")]
+motion_mode = 1
+script = ExtResource("1_slqqx")
+ground_ray = NodePath("GROUND RAY")
+max_ground_angle = 55.0
+pid_units = [NodePath("PID_SENSOR_FL"), NodePath("PID_SENSOR_FR"), NodePath("PID _SENSOR_RL"), NodePath("PID_SENSOR_RR")]
+target_hover_height = 5.0
+raycast_target_pos = Vector3(0, -3, 0)
+max_acceleration = 20.0
+accel_curve = SubResource("Curve_5nc24")
+recovery_shapecast = NodePath("ShapeCast3D")
+
+[node name="BROOM_VISUAL_POINT" type="Node3D" parent="CharacterBody3D" node_paths=PackedStringArray("controller")]
+script = ExtResource("2_5nc24")
+controller = NodePath("..")
+
+[node name="PID_SENSOR_FL" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2745194, 0, -0.544)
+script = ExtResource("2_8csbj")
+
+[node name="Raycast_FL" type="RayCast3D" parent="CharacterBody3D/PID_SENSOR_FL"]
+target_position = Vector3(0, -3, 0)
+
+[node name="RaycastVisual" type="MeshInstance3D" parent="CharacterBody3D/PID_SENSOR_FL"]
+visible = false
+mesh = SubResource("SphereMesh_slqqx")
+
+[node name="PID_SENSOR_FR" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.275, 0, -0.544)
+script = ExtResource("2_8csbj")
+
+[node name="Raycast_FR" type="RayCast3D" parent="CharacterBody3D/PID_SENSOR_FR"]
+target_position = Vector3(0, -2, 0)
+
+[node name="RaycastVisual" type="MeshInstance3D" parent="CharacterBody3D/PID_SENSOR_FR"]
+visible = false
+mesh = SubResource("SphereMesh_slqqx")
+
+[node name="PID _SENSOR_RL" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2745194, 0, 0.5441388)
+script = ExtResource("2_8csbj")
+
+[node name="Raycast_RL" type="RayCast3D" parent="CharacterBody3D/PID _SENSOR_RL"]
+target_position = Vector3(0, -2, 0)
+
+[node name="RaycastVisual" type="MeshInstance3D" parent="CharacterBody3D/PID _SENSOR_RL"]
+visible = false
+mesh = SubResource("SphereMesh_slqqx")
+
+[node name="PID_SENSOR_RR" type="Node3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.275, 0, 0.5441388)
+script = ExtResource("2_8csbj")
+
+[node name="Raycast_RR" type="RayCast3D" parent="CharacterBody3D/PID_SENSOR_RR"]
+target_position = Vector3(0, -2, 0)
+
+[node name="RaycastVisual" type="MeshInstance3D" parent="CharacterBody3D/PID_SENSOR_RR"]
+visible = false
+mesh = SubResource("SphereMesh_slqqx")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+shape = SubResource("SphereShape3D_mx30o")
+
+[node name="CameraRig" type="Node3D" parent="CharacterBody3D"]
+
+[node name="CameraFollow" type="Node3D" parent="CharacterBody3D/CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4155649, 1.6031315)
+
+[node name="Camera_Look" type="Node3D" parent="CharacterBody3D/CameraRig"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4155649, 0)
+
+[node name="GROUND RAY" type="RayCast3D" parent="CharacterBody3D"]
+target_position = Vector3(0, -2, 0)
+
+[node name="ShapeCast3D" type="ShapeCast3D" parent="CharacterBody3D"]
+shape = SubResource("SphereShape3D_e0bir")
+target_position = Vector3(0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+physics_interpolation_mode = 1
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4155649, 1.6031315)
+fov = 105.0
+
+[node name="PhantomCameraHost" type="Node" parent="Camera3D"]
+process_priority = 300
+process_physics_priority = 300
+script = ExtResource("3_qey41")
+metadata/_custom_type_script = "uid://bd046eokvcnu2"
+
+[node name="PhantomCamera3D" type="Node3D" parent="." node_paths=PackedStringArray("follow_target", "look_at_target")]
+transform = Transform3D(0.9999987, 0, 0, 0, 1, 0, 0, 0, 0.9999987, 0, 0.4155649, 1.6031315)
+top_level = true
+script = ExtResource("4_mx30o")
+follow_mode = 2
+follow_target = NodePath("../CharacterBody3D/CameraRig/CameraFollow")
+look_at_mode = 2
+look_at_target = NodePath("../CharacterBody3D/CameraRig/Camera_Look")
+tween_resource = SubResource("Resource_e0bir")
+camera_3d_resource = SubResource("Resource_622dw")
+follow_damping_value = Vector3(0.03, 0.06, 0.03)
+metadata/_custom_type_script = "uid://csjccrhj5wnx7"
+
+[node name="BROOM_VISUAL" type="Node3D" parent="." node_paths=PackedStringArray("controller", "follow_node")]
+script = ExtResource("1_mx30o")
+controller = NodePath("../CharacterBody3D")
+follow_node = NodePath("../CharacterBody3D/BROOM_VISUAL_POINT")
+dampen = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="BROOM_VISUAL"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("CapsuleMesh_fy5hh")
+skeleton = NodePath("../..")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="BROOM_VISUAL"]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 0, 0)
+visible = false
+mesh = SubResource("BoxMesh_mx30o")
+skeleton = NodePath("../..")
+
+[node name="ship_model" parent="BROOM_VISUAL" instance=ExtResource("7_e0bir")]
+transform = Transform3D(-0.33499882, 0, -2.9286527e-08, 0, 0.33499882, 0, 2.9286527e-08, 0, -0.33499882, 0, 0.13342494, -0.08148253)
+
+[node name="Camera_Orientation_Target" type="Node3D" parent="." node_paths=PackedStringArray("follow_node")]
+script = ExtResource("7_51dph")
+follow_node = NodePath("../CharacterBody3D")
+slerp_speed = 0.05
